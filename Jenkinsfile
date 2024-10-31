@@ -8,22 +8,25 @@ pipeline {
         DOCKER_CREDENTIALS = 'docker-hub-credentials' // Docker Hub credential ID
     }
     stages {
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("ankurnema/html-app:${params.VERSION}")
+        container('docker') {
+            stage('Build Docker Image') {
+                steps {
+                    script {
+                        docker.build("ankurnema/html-app:${params.VERSION}")
+                    }
                 }
             }
-        }
-        stage('Push to Docker Hub') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_CREDENTIALS) {
-                        docker.image("ankurnema/html-app:${params.VERSION}").push()
+            stage('Push to Docker Hub') {
+                steps {
+                    script {
+                        docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_CREDENTIALS) {
+                            docker.image("ankurnema/html-app:${params.VERSION}").push()
+                        }
                     }
                 }
             }
         }
+
         stage('Update Git Repository') {
             steps {
                 script {
