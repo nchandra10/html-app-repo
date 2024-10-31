@@ -9,26 +9,26 @@ pipeline {
     }
     stages {
         stage('Build Docker Image') {
-            container('docker') {
-                steps {
+            steps {
+                container('docker') {
                     script {
                         docker.build("ankurnema/html-app:${params.VERSION}")
                     }
                 }
+
             }
-            stage('Push to Docker Hub') {
+        }
+        stage('Push to Docker Hub') {
+            steps {
                 container('docker') {
-                    steps {
-                        script {
-                            docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_CREDENTIALS) {
-                                docker.image("ankurnema/html-app:${params.VERSION}").push()
-                            }
+                    script {
+                        docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_CREDENTIALS) {
+                            docker.image("ankurnema/html-app:${params.VERSION}").push()
                         }
                     }
                 }
             }
         }
-
         stage('Update Git Repository') {
             steps {
                 script {
