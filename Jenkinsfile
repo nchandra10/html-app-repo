@@ -48,6 +48,10 @@ pipeline {
                         # Use sed to update the newTag in kustomization.yaml
                         sed -i '/name: ankurnema\\/html-app/{n;s/newTag: .*/newTag: ${params.VERSION}/}' kustomization.yaml
 
+                        # Set Git user configuration
+                        git config user.email "automation@users.noreply.github.com"
+                        git config user.name "Automation User"
+
                         # Commit and push changes
                         git add kustomization.yaml
                         git commit -m "Update image tag to version ${params.VERSION}"
