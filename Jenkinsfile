@@ -15,7 +15,6 @@ pipeline {
                         docker.build("ankurnema/html-app:${params.VERSION}")
                     }
                 }
-
             }
         }
         stage('Push to Docker Hub') {
@@ -38,9 +37,13 @@ pipeline {
                         eval "$(ssh-agent -s)"
                         ssh-add $SSH_KEY
 
+                        # Add GitHub to known hosts to avoid host verification errors
+                        mkdir -p ~/.ssh
+                        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
                         # Clone the repository and update the image tag
-                        git clone git@github.com:ankur-devops-demo//html-demo-app.git
-                        cd k8s-manifest-repo
+                        git clone git@github.com:ankur-devops-demo/html-demo-app.git
+                        cd html-demo-app/k8s-manifest-repo
 
                         # Use yq to update the image tag in kustomization.yaml
                         yq eval '.images[] |= select(.name == "ankurnema/html-app").newTag = "'${params.VERSION}'"' -i kustomization.yaml
