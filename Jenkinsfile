@@ -34,7 +34,7 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: env.SSH_KEY_CREDENTIALS, keyFileVariable: 'SSH_KEY')]) {
                         sh """
                         # Start SSH agent and add the private key
-                        eval "$(ssh-agent -s)"
+                        eval "\$(ssh-agent -s)"
                         ssh-add \$SSH_KEY
 
                         # Add GitHub to known hosts to avoid host verification errors
