@@ -43,7 +43,7 @@ pipeline {
 
                         # Clone the repository and update the image tag
                         git clone git@github.com:ankur-devops-demo/html-demo-app.git
-                        cd html-demo-app/k8s-manifest-repo
+                        cd html-demo-app
 
                         # Use yq to update the image tag in kustomization.yaml
                         yq eval '.images[] |= select(.name == "ankurnema/html-app").newTag = "'${params.VERSION}'"' -i kustomization.yaml
