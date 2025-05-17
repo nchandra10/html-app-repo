@@ -12,7 +12,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        docker.build("deepaks374/html-app:${params.VERSION}")
+                        docker.build("nitincc10/html-app:${params.VERSION}")
                     }
                 }
             }
@@ -22,7 +22,7 @@ pipeline {
                 container('docker') {
                     script {
                         docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_CREDENTIALS) {
-                            docker.image("deepaks374/html-app:${params.VERSION}").push()
+                            docker.image("nitincc10/html-app:${params.VERSION}").push()
                         }
                     }
                 }
