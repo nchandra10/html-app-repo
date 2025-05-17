@@ -42,11 +42,11 @@ pipeline {
                         ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
                         # Clone the repository and update the image tag
-                        git clone git@github.com:deepaks374/html-demo-app.git
+                        git clone git@github.com:nchandra10/html-demo-app.git
                         cd html-demo-app
 
                         # Use sed to update the newTag in kustomization.yaml
-                        sed -i '/name: deepaks374\\/html-app/{n;s/newTag: .*/newTag: ${params.VERSION}/}' kustomization.yaml
+                        sed -i '/name: nchandra10\\/html-app/{n;s/newTag: .*/newTag: ${params.VERSION}/}' kustomization.yaml
 
                         # Set Git user configuration
                         git config user.email "automation@users.noreply.github.com"
